@@ -1,0 +1,26 @@
+{
+  "rules": [
+    {
+      "port": 22,
+      "service": "*ssh*"
+    }
+  ],
+  "actions": [
+    {
+      "type": "shell",
+      "args": "echo 'hello world'"
+    },
+    {
+      "type": "shell",
+      "args": "echo 'its work!'",
+      "rules": [
+        {
+          "prev_stdout": "hello world"
+        }
+      ],
+      "on_rules_miss": {
+        "type": "break"
+      }
+    }
+  ]
+}
