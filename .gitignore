@@ -39,3 +39,4 @@ tests/.excluded_sites
 
 # Scan results
 *.xml
+results_*.txt
