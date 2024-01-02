@@ -1,25 +1,29 @@
 {
+  "id": "example",
   "rules": [
     {
-      "port": 22,
-      "service": "*ssh*"
+      "port": 135,
+      "service": "*msrpc*"
     }
   ],
   "actions": [
     {
       "type": "shell",
-      "args": "echo 'hello world'"
+      "args": "echo 'hello world'",
+      "on_success": "This is a test"
     },
     {
       "type": "shell",
       "args": "echo 'its work!'",
       "rules": [
         {
-          "prev_stdout": "hello world"
+          "prev_stdout": "this gonna fail!!!"
         }
       ],
+      "on_success": "Woah, second test passed!",
       "on_rules_miss": {
-        "type": "break"
+        "type": "break",
+        "reason": "Uh oh, second test failed"
       }
     }
   ]

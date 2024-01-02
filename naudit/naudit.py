@@ -30,7 +30,7 @@ class NAudit(Loggable):
         for payload in self.payloads:
             if payload.match(service):
                 super().info(f"* Running payload {payload} for service {service}")
-                payload.run()
+                payload.run(service)
                 return True
         return False
 

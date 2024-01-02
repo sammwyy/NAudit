@@ -2,7 +2,7 @@ from colorama import Fore
 import time
 
 def right_pad(string, width):
-    return " " + string + " " * (width - 1 - len(string))
+    return " " + string + " " * (width - 2 - len(string)) + " "
 
 class Loggable():
     def __init__(self):
