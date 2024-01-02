@@ -25,6 +25,6 @@ python naudit.py <target>
 - [x] Port scanning
 - [x] Service enumeration
 - [x] OS detection
-- [ ] Payload delivery
+- [x] Payload delivery
 - [x] Vulnerability scanning
 - [ ] Data enumeration

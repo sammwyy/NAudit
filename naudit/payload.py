@@ -33,6 +33,14 @@ class Payload(Loggable):
         else:
             raise Exception("Unknown action type: " + action.type)
 
+    def _internal_format(self, string, stdio, service):
+        out = string.replace("$service", service.name)
+        out = out.replace("$address", service.address)
+        out = out.replace("$port", str(service.port))
+        out = out.replace("$protocol", str(service.protocol))
+        out = out.replace("$prev_stdout", stdio)
+        return out
+
     def run(self, service):
         prev_stdout = ""
         failed = False
@@ -56,18 +64,16 @@ class Payload(Loggable):
 
             # Execute action
             if action.type == ActionType.SHELL:
-                cmd = action.arg
-                cmd = cmd.replace("$prev_stdout", prev_stdout)
-                cmd = cmd.replace("$protocol", str(service.protocol))
-                cmd = cmd.replace("$port", str(service.port))
-                cmd = cmd.replace("$address", service.address)
+                cmd = self._internal_format(action.arg, prev_stdout, service)
                 prev_stdout = subprocess.check_output(cmd, shell = True, encoding = "utf-8")
-                super().ok(f"Stage {str(stage)}: {action.on_success}")
+                msg = self._internal_format(action.on_success, prev_stdout, service)
+                super().ok(f"Stage {str(stage)}: {msg}")
             elif action.type == ActionType.BREAK:
+                msg = self._internal_format(action.reason, prev_stdout, service)
                 if failed:
-                    super().error(f"Stage {str(stage)}: {action.reason}")
+                    super().error(f"Stage {str(stage)}: {msg}")
                 else:
-                    super().warn(f"Stage {str(stage)}: {action.reason}")
+                    super().warn(f"Stage {str(stage)}: {msg}")
                 return
 
     def run_async(self):

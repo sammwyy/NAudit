@@ -10,7 +10,7 @@
     {
       "type": "shell",
       "args": "echo 'hello world'",
-      "on_success": "This is a test"
+      "on_success": "This is a test $port $protocol $service"
     },
     {
       "type": "shell",
@@ -23,7 +23,7 @@
       "on_success": "Woah, second test passed!",
       "on_rules_miss": {
         "type": "break",
-        "reason": "Uh oh, second test failed"
+        "reason": "Uh oh, second test failed. $prev_stdout"
       }
     }
   ]
